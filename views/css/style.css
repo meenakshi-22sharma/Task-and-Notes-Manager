@@ -1,0 +1,9 @@
+.body{
+    display: inline-flex;
+}
+img{
+    width: 100%;
+}
+.sort{
+    margin-right: 20%;
+}
