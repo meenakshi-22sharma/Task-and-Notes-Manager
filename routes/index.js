@@ -1,25 +1,27 @@
-const route = require('express')
+const express= require('express').Router()
 
-let todos = [
-    { task: 'Learn NodeJS', done: false, due: '2020-04-05' },
-    { task: 'Learn SQL', done: false, due: '2020-04-06' },
-    { task: 'Learn HTML and CSS', done: true, due: '2020-04-01' }
-  ]
+
+const route = express()
+const taskController = require('../controller/taskController')
+const notesController = require('../controller/notesController')
+
   
-route.use('/', express.static(__dirname + '/public'))
-  
-route.get('/tasks/:id', function (req, res) {
-
-})
-route.patch('/tasks/:id', function (req, res) {
-
-})
-route.get('/tasks/:id/notes', function (req, res) {
-
-})
-route.post('/tasks/:id/notes', function (req, res) {
-
-})
+//list all tasks in array
+route.get('/tasks',taskController.listAll)
+//add a new todo
+route.post('/tasks',taskController.addNew)
+//details of todo with requested id 
+route.get('/tasks/:id',taskController.details)
+//update details of todo with requested id
+route.patch('/tasks/:id', taskController.updateDetails)
+//get list of all notes under todo with requested id
+route.get('/tasks/:id/notes', notesController.getAll)
+//add a new note under todo with given id 
+route.post('/tasks/:id/notes', notesController.addNewNote)
 
 
-module.exports = route;
+
+
+exports =module.exports = {
+  route
+}
