@@ -48,13 +48,13 @@ function updateDetails(req, res) {
             const {
                 status,
                 priority,
-                title
+                dueDate
             } = req.body;
-            console.log(status, priority, title);
+            console.log(status, priority, dueDate);
             return task.update({
                     Status: status,
                     Priority: priority,
-                    Title: title
+                    Due_Date: dueDate
                 })
                 .then(() => res.send(task))
                 .catch((err) => {
