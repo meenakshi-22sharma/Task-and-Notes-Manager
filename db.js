@@ -17,7 +17,8 @@ const db= new Sequelize({
             },
     Description : { type: Sequelize.STRING(200)},
     Due_Date :{type: Sequelize.DATE},
-    Status : {type: Sequelize.STRING(20)},
+    Status : {type: Sequelize.STRING(20),
+             defaultValue:"Incomplete"},
     Priority :{type: Sequelize.STRING(10)}
 
       
