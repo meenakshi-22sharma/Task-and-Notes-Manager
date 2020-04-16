@@ -30,8 +30,8 @@ const db= new Sequelize({
 
 
 
-task.hasMany(note);
-note.belongsTo(task); 
+Tasks.hasMany(Notes);
+Notes.belongsTo(Tasks); 
 
 db.sync()
   .then(()=> console.log("Database has been synced"))
