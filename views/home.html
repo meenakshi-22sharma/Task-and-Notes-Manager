@@ -3,47 +3,54 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="../public/jquery-3.4.1.js"></script>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <script src="/add_Task.js"></script>
+    <script src="/task.js"></script>
+    <script src="/home.js"></script>
+    <link rel="stylesheet" href="/css/style.css" type="">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <script src="../public/taskList.js">
-       
+
+
+
     </script>
-    
+
     <title>Task Manager</title>
 </head>
 
 <body>
     <div class="body">
-        <div class="col-md-7">
-            <div class="navbar navbar-dark bg-dark">
+        <div class="navbar navbar-dark bg-dark">
+            <h2>
                 <a class="navbar-brand" href="#">
                     <!--<img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30"
                         class="d-inline-block align-top" alt=""> -->
                     TASK MANAGER
                 </a>
+            </h2>
 
-                <div class="btn-group sort">
-                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        SORT BY
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Due Date (by latest)</a>
-                        <a class="dropdown-item" href="#">Status</a>
-                        <a class="dropdown-item" href="#">Priority</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Due Date</a>
-                    </div>
+            <div class="btn-group sort">
+                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    SORT BY
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Due Date (by latest)</a>
+                    <a class="dropdown-item" href="#">Status</a>
+                    <a class="dropdown-item" href="#">Priority</a>
+                   
+                    <a class="dropdown-item" href="#">Due Date (oldest)</a>
                 </div>
             </div>
+        </div>
 
-
-
-            <div class="tasks">
-                <div class="card mb-3">
+    <div class="d-flex">
+    <div style="width: 65%; margin-top: 100px;">
+            <div id="tasks" class="mt-3">
+                <div class="task card mb-5">
                     <div class="row no-gutters">
                         <div class="col-md-4 ">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTbV3Ao3QumlY4DhjxgrNiXMIUrMF8Ci8By_ygmXQAo4AAXv7hW&usqp=CAU"
@@ -56,120 +63,102 @@
                                     bulk
                                     of the card's content.</p>
 
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Due Date  </li> 
-                                    <li class="list-group-item">State </li>
-                                    <li class="list-group-item">Priority </li>
+                                <ul class="list-group list-group-flush" id="list">
+                                    <li class="list-group-item" id="due">Due Date </li>
+                                    <li class="list-group-item" id="state">State </li>
+                                    <li class="list-group-item" id="pri">Priority </li>
                                 </ul>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                <button type="button" class="btn btn-secondary btn-lg btn-block">Edit</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header">
+                            NOTES
+                            <button type="button" class="btn btn-info" onclick="enableInput()">Add +</button>
 
-            </div>
-            <div class="tasks">
-                <div class="card mb-3">
-                    <div class="row no-gutters">
-                        <div class="col-md-4 ">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTbV3Ao3QumlY4DhjxgrNiXMIUrMF8Ci8By_ygmXQAo4AAXv7hW&usqp=CAU"
-                                class=" " alt="Task Picture">
                         </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Cook Food</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk
-                                    of the card's content.</p>
-
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Due Date </li>
-                                    <li class="list-group-item">State </li>
-                                    <li class="list-group-item">Priority </li>
-                                </ul>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <div class="input-group mb-3" id="addNewNoteDiv" style="display: none;">
+                            <input type="text" class="form-control" placeholder="New Note" aria-label="New Note"
+                                aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="insertNote">Insert</button>
                             </div>
                         </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
                     </div>
                 </div>
 
-            </div>
-            <div class="tasks">
-                <div class="card mb-3">
-                    <div class="row no-gutters">
-                        <div class="col-md-4 ">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTbV3Ao3QumlY4DhjxgrNiXMIUrMF8Ci8By_ygmXQAo4AAXv7hW&usqp=CAU"
-                                class=" " alt="Task Picture">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">Cook Food</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk
-                                    of the card's content.</p>
-
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Due Date </li>
-                                    <li class="list-group-item">State </li>
-                                    <li class="list-group-item">Priority </li>
-                                </ul>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
             </div>
         </div>
 
-
-        <aside class="col-md-5 border">
-            <h3 class="display-6">ADD TASK TODAY</h3>
+        <aside style="width: 35%;">
+            <h4 class="aside-header">ADD TASK</h4>
             <div class="form">
                 <form>
 
                     <div class="form-group">
-                        <label for="title">Title</label>
+                        <label for="titleInput">Title</label>
                         <input type="text" class="form-control" id="titleInput" placeholder="Title">
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <input type="password" class="form-control" id="inputPassword4"
-                            placeholder="optional description">
+                        <input type="text" class="form-control" id="description" placeholder="optional description">
                     </div>
 
                     <div class="form-group">
-                        <label for="dueDate">Due Date</label>
-                        <input type="date" class="form-control" id="inputDueDate" value="">
+                        <label for="inputDueDate">Due Date</label>
+                        <input type="date" class="form-control" id="inputDueDate">
                     </div>
                     <div class="form-group">
-                        <label for="priority">Priority </label>
-                        <select id="selectPriority" class="form-control">
+                        <label for="selectPriority">Priority </label>
+                        <select id="selectPriority" class="form-control" style="height: auto;">
                             <option selected>Medium</option>
                             <option>High</option>
                             <option>Low</option>
-                        </select> 
+                        </select>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-check disabled">
+                        <div class="form-check " style="display: none;" id="statusButton">
                             <label id="status"> Status </label>
-                            <div class="radio disabled">
-                                <label><input type="radio" name="optradio" checked disabled>Incomplete</label>
+                            <div class="radio">
+                                <input class="form-check-input" type="radio" name="optradio" value="Incomplete" checked>
+                                <label class="form-check-label" for="Incomplete">
+                                    Incomplete
+                                </label>
+
                             </div>
-                            <div class="radio disabled">
-                                <label><input type="radio" name="optradio" disabled>Completed</label>
+                            <div class="radio">
+                                <input class="form-check-input" type="radio" name="optradio" value="Completed">
+                                <label class="form-check-label" for="Incomplete">
+                                    Completed
+                                </label>
                             </div>
                         </div>
                     </div>
-                    <input type="submit" class="btn btn-primary" id="createNewTask" value="Submit">
+                    <button type="button" class="btn btn-primary" id="createNewTask">Submit</button>
+                    <button type="button" class="btn btn-primary" id="editTask" style="display:none">Update</button>
                 </form>
             </div>
         </aside>
+</div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/note.js"></script>
+    <script src="/edit_Task.js"></script>
+    <script src="/js/noteScript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
 
 
 
