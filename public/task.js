@@ -7,17 +7,16 @@ function fetchTasks(done) {
 }
 
 //-------------------------  Sending post request to save Task data------------------------------------------
-function addTask(title, description, dueDate, status, priority) {
+function addTask(title, description, dueDate, priority) {
 
     $.post('/tasks', {
         title: title,
         description: description,
         dueDate: dueDate,
-        status: status,
         priority: priority
     }, function (data) {
         alert("Added task")
-        
+        $('#tasks').append(createTaskCard(data))
     })
 
 }
@@ -30,7 +29,6 @@ function editTask(id, dueDate, status, priority) {
         status: status,
         priority: priority,
         dueDate: dueDate
-
     }
 
     $.ajax({
@@ -39,8 +37,11 @@ function editTask(id, dueDate, status, priority) {
         data: JSON.stringify(data),
         // processData: false,
         contentType: 'application/json',
-        success: function () {
-            console.log("HUrraya");
+        success: function (data) {
+            window.alert("Edited " + data.Id + " to Database")
+            $('#' + data.Id + ' #due').text("Due Date : " + data.Due_Date.substr(0, data.Due_Date.indexOf("T")))
+            $('#' + data.Id + ' #state').text("State : " + data.Status)
+            $('#' + data.Id + ' #pri').text("Priority : " + data.Priority)
         }
 
         /* success and error handling omitted for brevity */
@@ -84,10 +85,10 @@ function createTaskCard(task) {
         <div  class="card note-card" style="display:none ; overflow: hidden; width: 18rem;">
              <div class="card-header" style="text-align: -webkit-center;">
                 <label > NOTES </label>
-                 <button type="button" class="btn btn-info"   onclick="enableInput()">Add  +</button>
+                 <button type="button" class="btn btn-info"   onclick="enableInput(${task.Id})">Add  +</button>
             </div>
 
-            <div class="input-group mb-3" id="addNewNoteDiv" style="display: none;">
+            <div class="input-group mb-3" id="addNewNoteDiv-${task.Id}" style="display: none;">
                 <input type="text" id="editNote-${task.Id}" class="form-control" placeholder="New Note" aria-label="New Note" aria-describedby="basic-addon2">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick="readData(${task.Id})" >Insert</button>
@@ -101,4 +102,103 @@ function createTaskCard(task) {
       </div>
 
     </div>`)
+}
+
+
+
+/*-----------------------------------Sorting tasks ---------------------------------*/
+
+function sortTasksBy(id) {
+    if (id == "byPriority") {
+        sortByPriority();
+    } else if (id == "byStatus") {
+        sortByStatus();
+    } else {
+        sortByDate();
+
+    }
+}
+
+//----------------------------Sort by Priority ----------------------------------------
+
+function sortByPriority() {
+    console.log("refreshing list")
+    let taskList = $('#tasks')
+    let midList = $('#tasks1')
+    let lastList = $('#tasks2')
+
+    fetchTasks(function (tasks) {
+
+
+        taskList.empty()
+        midList.empty()
+        lastList.empty()
+
+        for (task of tasks) {
+            if (task.Priority == "High") {
+                taskList.append(createTaskCard(task))
+            } else if (task.Priority == "Medium") {
+                midList.append(createTaskCard(task))
+            } else {
+                lastList.append(createTaskCard(task))
+            }
+        }
+    })
+}
+
+//-------------------------------- Sort by Staus---------------------------------------------------------
+
+function sortByStatus() {
+    console.log("refreshing list")
+    let taskList = $('#tasks')
+    let midList = $('#tasks1')
+    let lastList = $('#tasks2')
+
+
+    fetchTasks(function (tasks) {
+
+        taskList.empty()
+        midList.empty()
+        lastList.empty()
+        for (task of tasks) {
+            console.log(task.Status)
+            if (task.Status == "Incomplete") {
+                taskList.append(createTaskCard(task))
+            } else {
+                midList.append(createTaskCard(task))
+            }
+
+        }
+    })
+}
+
+
+//-------------------------------- Sort by Date----------------------------------------------------------
+function sortByDate() {
+    console.log("refreshing list")
+    let taskList = $('#tasks')
+    let midList = $('#tasks1')
+    let lastList = $('#tasks2')
+
+
+
+
+    fetchTasks(function (tasks) {
+
+        taskList.empty()
+        midList.empty()
+        lastList.empty()
+        for (task of tasks) {
+            console.log(task.Due_Date.slice(0, 10))
+            task.Due_Date = task.Due_Date.slice(0, 10)
+        }
+        tasks = tasks.sort(function (a, b) {
+            return a.Due_Date > b.Due_Date ? 1 : -1;
+        })
+        for (task of tasks) {
+            task.Due_Date=task.Due_Date+"T"
+            taskList.append(createTaskCard(task))
+        }
+
+    })
 }

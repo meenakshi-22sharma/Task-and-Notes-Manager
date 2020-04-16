@@ -1,7 +1,7 @@
 /*----------Enable note input field--------------------*/
 
-function enableInput() {
-    $('#addNewNoteDiv').show();
+function enableInput(id) {
+    $('#addNewNoteDiv-'+id).show();
 }
 
 /*---------------------On click make Note card enable-------------------------------*/

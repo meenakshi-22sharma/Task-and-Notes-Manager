@@ -9,16 +9,11 @@ function edit_task_success(Id){
     
         let priority = $('#selectPriority')
         let status = $("input[type='radio'][name='optradio']:checked").val();
-
         editTask(
                 id,
                 dueDate.val(),
                 status,
-                priority.val()),
-            function (editTask) {
-               
-                window.alert("Edited" + Id + "  to Database")
-            }
+                priority.val())
     })
  
 }
@@ -28,17 +23,13 @@ function edit_task_success(Id){
 function putDataOnForm(data){
     $('#titleInput').val(data.Title)
      $('#description').val(data.Description)
-     console.log(data.Id)
      let DATE = data.Due_Date;
      let formatedDate = DATE.substr(0,DATE.indexOf("T"));
      $('#inputDueDate').val(formatedDate)
      $('#selectPriority').val(data.Priority)
-     $("input[name='optradio']").val(data.Status);
+    
 
-
-
-        edit_task_success(data.Id);
-   
+    edit_task_success(data.Id);
 }
 
 
