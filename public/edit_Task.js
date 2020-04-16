@@ -1,3 +1,5 @@
+/*-----------Sending edited task form data back to database for edit-----------------*/
+
 function edit_task_success(Id){
    
 
@@ -6,7 +8,7 @@ function edit_task_success(Id){
         let dueDate = $('#inputDueDate')
     
         let priority = $('#selectPriority')
-        let status = $("input[name='optradio']:checked").val();
+        let status = $("input[type='radio'][name='optradio']:checked").val();
 
         editTask(
                 id,
@@ -19,10 +21,10 @@ function edit_task_success(Id){
             }
     })
  
-    //$('#createNewTask').show();
-   // $('#editTask').hide();
 }
 
+
+/* ----------------Retrieve data from database and put values over the form to let user edit them---------------*/
 function putDataOnForm(data){
     $('#titleInput').val(data.Title)
      $('#description').val(data.Description)
@@ -39,6 +41,8 @@ function putDataOnForm(data){
    
 }
 
+
+/*-----------------Request to get the data of task that is requested for editing -----------------------*/
 function putDataForEdit(task_id) {
 
   console.log('http://localhost:4567/tasks/'+task_id)
@@ -58,22 +62,14 @@ function putDataForEdit(task_id) {
 
 }
 
-function editButton(e) {
+/*----------------Get the id of clicked task card-------------------*/
 
+function editButton(e) {
     var parent_id = $(e).parent().parent();
     console.log(parent_id)
     var childID = $(parent_id).children('.card-footer');
     var taskId = $(childID).children('.text-muted').text();
     console.log(taskId)
-
-    /* var description = $(parent_id).children('.card-text').text();
-     var list = $(parent_id).children('#list')
-     var dd = $(list).children('#due').text();
-     var dueDate = dd.substr(dd.indexOf(":") + 3).trim();
-     var s = ($(list).children('#state').text());
-     var status = s.substr(s.indexOf(":") + 3);
-     var p = $(list).children('#pri').text();
-     var priority = p.substr(p.indexOf(":") + 3);*/
     $('#createNewTask').hide();
     $('#editTask').show();
     $('#statusButton').show();
