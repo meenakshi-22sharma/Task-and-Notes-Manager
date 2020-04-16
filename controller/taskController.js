@@ -11,6 +11,7 @@ function listAll(req, res) {
 }
 
 function addNew(req, res) {
+    
     Task.create({
         Title: req.body.title,
         Description: req.body.description,
@@ -27,6 +28,7 @@ function addNew(req, res) {
 }
 
 function details(req, res) {
+    console.log(req.params.id)
     const taskId = parseInt(req.params.id);
     console.log(Task);
     Task.findByPk(taskId)
@@ -40,11 +42,11 @@ function details(req, res) {
 }
 
 function updateDetails(req, res) {
+    console.log("updating database succesfully")
     const taskId = parseInt(req.params.id);
-    console.log(Task);
+    console.log(req.body)
     Task.findByPk(taskId)
         .then((task) => {
-            console.log(task);
             const {
                 status,
                 priority,
@@ -56,14 +58,14 @@ function updateDetails(req, res) {
                     Priority: priority,
                     Due_Date: dueDate
                 })
-                .then(() => res.send(task))
+                .then(() => {console.log("Task updaed"); res.send(task)})
                 .catch((err) => {
                     console.log('***Error updating task', JSON.stringify(err))
                     res.status(400).send(err)
                 })
         }).catch((err) => {
             res.status(501).send({
-                error: `Could not get task with id ${taskid} while updating details`
+                error: `Could not get task with id  while updating details`
             })
         });
 }
